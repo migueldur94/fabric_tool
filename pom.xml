@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>dev.mike</groupId>
+    <artifactId>fabric_tool</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>4.9.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20210307</version>
+        </dependency>
+        <dependency>
+            <groupId>org.xerial</groupId>
+            <artifactId>sqlite-jdbc</artifactId>
+            <version>3.46.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.bitbucket.mstrobel</groupId>
+            <artifactId>procyon-compilertools</artifactId>
+            <version>0.5.36</version>
+        </dependency>
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>4.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.dc.gui</groupId>
+            <artifactId>dc-gui</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+    </dependencies>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+   <build>
+       <plugins>
+           <plugin>
+               <groupId>org.apache.maven.plugins</groupId>
+               <artifactId>maven-shade-plugin</artifactId>
+               <version>3.2.4</version>
+               <executions>
+                   <execution>
+                       <phase>package</phase>
+                       <goals>
+                           <goal>shade</goal>
+                       </goals>
+                       <configuration>
+                           <artifactSet>
+                               <includes>
+                                   <include>*:*</include>
+                               </includes>
+                           </artifactSet>
+                           <transformers>
+                               <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                               <mainClass>dev.mike.ui.Board</mainClass>
+                               </transformer>
+                           </transformers>
+                       </configuration>
+                   </execution>
+               </executions>
+           </plugin>
+           <plugin>
+               <groupId>com.akathist.maven.plugins.launch4j</groupId>
+               <artifactId>launch4j-maven-plugin</artifactId>
+               <version>1.7.25</version>
+               <executions>
+                   <execution>
+                       <id>default</id>
+                       <phase>package</phase>
+                       <goals>
+                           <goal>launch4j</goal>
+                       </goals>
+                   </execution>
+               </executions>
+               <configuration>
+                   <outfile>${project.build.directory}/fabrictool.exe</outfile>
+                   <jar>${project.build.directory}/${project.build.finalName}.jar</jar>
+                   <dontWrapJar>false</dontWrapJar>
+                   <headerType>gui</headerType>
+                   <jre>
+                       <path>../jre</path>
+                       <minVersion>1.8.0</minVersion>
+                   </jre>
+               </configuration>
+           </plugin>
+
+       </plugins>
+   </build>
+
+</project>
